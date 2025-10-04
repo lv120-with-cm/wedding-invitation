@@ -32,7 +32,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
   const [mapError, setMapError] = useState(false);
   // 배차 안내 펼침/접기 상태 관리
   const [expandedShuttle, setExpandedShuttle] = useState<'groom' | 'bride' | null>(null);
-  
+
   // 배차 안내 펼침/접기 토글 함수
   const toggleShuttle = (shuttle: 'groom' | 'bride') => {
     if (expandedShuttle === shuttle) {
@@ -41,14 +41,14 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       setExpandedShuttle(shuttle);
     }
   };
-  
+
   // 디버깅 정보 출력
   useEffect(() => {
     const clientId = process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID || '';
     const debug = `클라이언트 ID: ${clientId.substring(0, 3)}...`;
     setDebugInfo(debug);
   }, []);
-  
+
   // 네이버 지도 API 스크립트 동적 로드
   useEffect(() => {
     const loadNaverMapScript = () => {
@@ -56,7 +56,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
         setMapLoaded(true);
         return;
       }
-      
+
       const script = document.createElement('script');
       script.async = true;
       // 네이버 지도 API는 geocoder를 별도로 로드해야 합니다
@@ -70,7 +70,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
         setMapError(true);
       };
       document.head.appendChild(script);
-      
+
       // 인증 오류 확인을 위한 타임아웃 설정
       setTimeout(() => {
         if (document.querySelector('div[style*="position: absolute; z-index: 100000000"]')) {
@@ -81,7 +81,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
     };
 
     loadNaverMapScript();
-    
+
     // 컴포넌트 언마운트 시 맵 제거
     return () => {
       if (mapRef.current) {
@@ -89,18 +89,18 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       }
     };
   }, []);
-  
+
   // 네이버 지도 초기화
   useEffect(() => {
     if (!mapLoaded || !mapRef.current || mapError) return;
-    
+
     const initMap = () => {
       try {
         console.log('네이버 지도 초기화 시작');
-        
+
         // 기본 좌표 (서울 시청) - 주소 검색 전 기본값
         const defaultLocation = new window.naver.maps.LatLng(37.5666805, 126.9784147);
-        
+
         // 지도 생성
         const map = new window.naver.maps.Map(mapRef.current, {
           center: defaultLocation,
@@ -110,33 +110,33 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
             position: window.naver.maps.Position.RIGHT_TOP
           }
         });
-        
+
         console.log('네이버 지도 객체 생성 성공');
-        
+
         // wedding-config.ts에서 좌표 가져오기
         const venueLocation = new window.naver.maps.LatLng(
-          weddingConfig.venue.coordinates.latitude, 
+          weddingConfig.venue.coordinates.latitude,
           weddingConfig.venue.coordinates.longitude
         );
-        
+
         // 마커 생성
         const marker = new window.naver.maps.Marker({
           position: venueLocation,
           map: map
         });
-        
+
         // 인포윈도우 생성
         const infoWindow = new window.naver.maps.InfoWindow({
           content: `<div style="padding:10px;min-width:150px;text-align:center;font-size:14px;"><strong>${weddingConfig.venue.name}</strong></div>`
         });
-        
+
         // 마커 클릭 시 인포윈도우 표시
         infoWindow.open(map, marker);
-        
+
         // 지도 중심 이동
         map.setCenter(venueLocation);
         console.log('네이버 지도 초기화 완료');
-        
+
         // 인증 오류를 감지하기 위한 추가 확인
         setTimeout(() => {
           const errorDiv = document.querySelector('div[style*="position: absolute; z-index: 100000000"]');
@@ -145,16 +145,16 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
             setMapError(true);
           }
         }, 1000);
-        
+
       } catch (error) {
         console.error('네이버 지도 초기화 오류:', error);
         setMapError(true);
       }
     };
-    
+
     initMap();
   }, [mapLoaded, mapError]);
-  
+
   // 정적 지도 이미지 렌더링 (API 인증 실패 시 대체 콘텐츠)
   const renderStaticMap = () => {
     return (
@@ -167,7 +167,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       </StaticMapContainer>
     );
   };
-  
+
   // 길찾기 링크 생성 함수들
   const navigateToNaver = () => {
     if (typeof window !== 'undefined') {
@@ -176,7 +176,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       window.open(naverMapsUrl, '_blank');
     }
   };
-  
+
   const navigateToKakao = () => {
     if (typeof window !== 'undefined') {
       // 카카오맵 앱/웹으로 연결
@@ -188,17 +188,17 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       window.open(kakaoMapsUrl, '_blank');
     }
   };
-  
+
   const navigateToTmap = () => {
     if (typeof window !== 'undefined') {
       // TMAP 앱으로 연결 (앱 딥링크만 사용)
       const lat = weddingConfig.venue.coordinates.latitude;
       const lng = weddingConfig.venue.coordinates.longitude;
       const name = encodeURIComponent(weddingConfig.venue.name);
-      
+
       // 모바일 디바이스에서는 앱 실행 시도
       window.location.href = `tmap://route?goalname=${name}&goaly=${lat}&goalx=${lng}`;
-      
+
       // 앱이 설치되어 있지 않을 경우를 대비해 약간의 지연 후 TMAP 웹사이트로 이동
       setTimeout(() => {
         // TMAP이 설치되어 있지 않으면 TMAP 웹사이트 메인으로 이동
@@ -207,17 +207,17 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
       }, 1000);
     }
   };
-  
+
   return (
     <VenueSectionContainer $bgColor={bgColor}>
       <SectionTitle>장소</SectionTitle>
-      
+
       <VenueInfo>
         <VenueName>{weddingConfig.venue.name}</VenueName>
         <VenueAddress>{formatTextWithLineBreaks(weddingConfig.venue.address)}</VenueAddress>
         <VenueTel href={`tel:${weddingConfig.venue.tel}`}>{weddingConfig.venue.tel}</VenueTel>
       </VenueInfo>
-      
+
       {mapError ? (
         renderStaticMap()
       ) : (
@@ -225,7 +225,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
           {!mapLoaded && <MapLoading>지도를 불러오는 중...{debugInfo}</MapLoading>}
         </MapContainer>
       )}
-      
+
       <NavigateButtonsContainer>
         <NavigateButton onClick={navigateToNaver} $mapType="naver">
           네이버 지도
@@ -237,7 +237,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
           TMAP
         </NavigateButton>
       </NavigateButtonsContainer>
-      
+
       <TransportCard>
         <CardTitle>대중교통 안내</CardTitle>
         <TransportItem>
@@ -249,14 +249,14 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
           <TransportText>{weddingConfig.venue.transportation.bus}</TransportText>
         </TransportItem>
       </TransportCard>
-      
+
       <ParkingCard>
         <CardTitle>주차 안내</CardTitle>
         <TransportText>{weddingConfig.venue.parking}</TransportText>
       </ParkingCard>
-      
+
       {/* 신랑측 배차 안내 - 정보가 있을 때만 표시 */}
-      {weddingConfig.venue.groomShuttle && (
+      {/* {weddingConfig.venue.groomShuttle && (
         <ShuttleCard>
           <ShuttleCardHeader onClick={() => toggleShuttle('groom')} $isExpanded={expandedShuttle === 'groom'}>
             <CardTitle>신랑측 배차 안내</CardTitle>
@@ -264,7 +264,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
               {expandedShuttle === 'groom' ? '−' : '+'}
             </ExpandIcon>
           </ShuttleCardHeader>
-          
+
           {expandedShuttle === 'groom' && (
             <ShuttleContent>
               <ShuttleInfo>
@@ -287,10 +287,10 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
             </ShuttleContent>
           )}
         </ShuttleCard>
-      )}
-      
+      )} */}
+
       {/* 신부측 배차 안내 - 정보가 있을 때만 표시 */}
-      {weddingConfig.venue.brideShuttle && (
+      {/* {weddingConfig.venue.brideShuttle && (
         <ShuttleCard>
           <ShuttleCardHeader onClick={() => toggleShuttle('bride')} $isExpanded={expandedShuttle === 'bride'}>
             <CardTitle>신부측 배차 안내</CardTitle>
@@ -298,7 +298,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
               {expandedShuttle === 'bride' ? '−' : '+'}
             </ExpandIcon>
           </ShuttleCardHeader>
-          
+
           {expandedShuttle === 'bride' && (
             <ShuttleContent>
               <ShuttleInfo>
@@ -321,7 +321,7 @@ const VenueSection = ({ bgColor = 'white' }: VenueSectionProps) => {
             </ShuttleContent>
           )}
         </ShuttleCard>
-      )}
+      )} */}
     </VenueSectionContainer>
   );
 };
@@ -338,7 +338,7 @@ const SectionTitle = styled.h2`
   margin-bottom: 2rem;
   font-weight: 500;
   font-size: 1.5rem;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -442,16 +442,16 @@ const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' | 'tmap' }>`
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   transition: all 0.2s ease;
-  
+
   &:hover {
     background-color: #c4a986;
     box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   }
-  
+
   &:active {
     transform: translateY(1px);
   }
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -465,11 +465,11 @@ const NavigateButton = styled.button<{ $mapType?: 'naver' | 'kakao' | 'tmap' }>`
     transform: scale(1, 1) translate(-50%);
     transform-origin: 50% 50%;
   }
-  
+
   &:active:after {
     animation: ripple 0.6s ease-out;
   }
-  
+
   @keyframes ripple {
     0% {
       transform: scale(0, 0);
@@ -528,7 +528,7 @@ const TransportText = styled.p`
 
 const ShuttleInfo = styled.div`
   margin-bottom: 1rem;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -558,11 +558,11 @@ const ShuttleCallButton = styled.a`
   margin-left: 0.5rem;
   position: relative;
   overflow: hidden;
-  
+
   &:active {
     transform: translateY(1px);
   }
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -576,7 +576,7 @@ const ShuttleCallButton = styled.a`
     transform: scale(1, 1) translate(-50%);
     transform-origin: 50% 50%;
   }
-  
+
   &:active:after {
     animation: ripple 0.6s ease-out;
   }
@@ -589,7 +589,7 @@ const ShuttleCardHeader = styled.div<{ $isExpanded: boolean }>`
   padding: 1.5rem;
   cursor: pointer;
   border-bottom: ${props => props.$isExpanded ? '1px solid #eee' : 'none'};
-  
+
   h4 {
     margin: 0;
   }
@@ -607,4 +607,4 @@ const ShuttleContent = styled.div`
   padding: 1rem 1.5rem 1.5rem;
 `;
 
-export default VenueSection; 
+export default VenueSection;
