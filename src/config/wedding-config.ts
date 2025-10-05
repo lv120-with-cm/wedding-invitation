@@ -13,11 +13,17 @@ interface GalleryConfig {
 export const weddingConfig = {
   // 메타 정보
   meta: {
-    title: "박구삼 ❤️ 윤채민의 결혼식에 초대합니다",
-    description: "결혼식 초대장",
-    ogImage: "/images/20250925_132032.jpg",
+    title: "박구삼 ❤️ 윤채민의 결혼식 알림장!",
+    description: "결혼식 알림장",
+    ogImage: "/images/28a116f8dfccaa9e378a0deacc1ebf24f43ad912ad8dd55b04db6a64cddaf76d.gif",
     noIndex: true,
     _jwk_watermark_id: uniqueIdentifier,
+  },
+
+  // 오픈 예약
+  reserved: {
+    enabled: true, // 오픈 예약 섹션 표시 여부
+    openDate: new Date("2025-10-20T00:00:00"), // 오픈 날짜 및 시간 설정 (예: 2025년 10월 1일 자정)
   },
 
   // 메인 화면
