@@ -21,7 +21,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
     brideFather: false,
     brideMother: false,
   });
-  
+
   // URL 복사 상태 관리
   const [urlCopied, setUrlCopied] = useState(false);
 
@@ -49,7 +49,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
       }
     );
   };
-  
+
   // URL 복사 함수
   const copyWebsiteUrl = () => {
     const url = window.location.href;
@@ -65,7 +65,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
       }
     );
   };
-  
+
   // 웹 공유 API를 사용한 공유 함수
   const shareWebsite = async () => {
     const shareData = {
@@ -73,7 +73,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
       text: `${weddingConfig.invitation.groom.name} ♥ ${weddingConfig.invitation.bride.name}의 결혼식에 초대합니다`,
       url: window.location.href,
     };
-    
+
     try {
       if (navigator.share) {
         await navigator.share(shareData);
@@ -146,7 +146,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
   return (
     <AccountSectionContainer $bgColor={bgColor}>
       <SectionTitle>마음 전하실 곳</SectionTitle>
-      
+
       <AccountCards>
         {/* 신랑측 계좌 카드 */}
         <AccountCard onClick={() => toggleSide('groom')}>
@@ -156,7 +156,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
               {expandedSide === 'groom' ? '−' : '+'}
             </ExpandIcon>
           </AccountCardHeader>
-          
+
           {expandedSide === 'groom' && (
             <AccountRowsContainer>
               {renderAccountRow(weddingConfig.account.groom, 'groom', '신랑')}
@@ -165,7 +165,7 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
             </AccountRowsContainer>
           )}
         </AccountCard>
-        
+
         {/* 신부측 계좌 카드 */}
         <AccountCard onClick={() => toggleSide('bride')}>
           <AccountCardHeader $isExpanded={expandedSide === 'bride'}>
@@ -174,17 +174,17 @@ const AccountSection = ({ bgColor = 'white' }: AccountSectionProps) => {
               {expandedSide === 'bride' ? '−' : '+'}
             </ExpandIcon>
           </AccountCardHeader>
-          
+
           {expandedSide === 'bride' && (
             <AccountRowsContainer>
               {renderAccountRow(weddingConfig.account.bride, 'bride', '신부')}
-              {renderAccountRow(weddingConfig.account.brideFather, 'brideFather', '아버지')}
+              {/* {renderAccountRow(weddingConfig.account.brideFather, 'brideFather', '아버지')} */}
               {renderAccountRow(weddingConfig.account.brideMother, 'brideMother', '어머니')}
             </AccountRowsContainer>
           )}
         </AccountCard>
       </AccountCards>
-      
+
       {/* 청첩장 공유하기 버튼 */}
       <ShareContainer>
         <ShareButton onClick={copyWebsiteUrl}>
@@ -210,7 +210,7 @@ const SectionTitle = styled.h2`
   margin-bottom: 2rem;
   font-weight: 500;
   font-size: 1.5rem;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -240,7 +240,7 @@ const AccountCard = styled.div`
   flex-direction: column;
   cursor: pointer;
   transition: all 0.2s ease;
-  
+
   &:hover {
     box-shadow: 0 6px 10px rgba(0,0,0,0.1);
   }
@@ -281,7 +281,7 @@ const AccountRow = styled.div`
   align-items: center;
   padding: 1rem 1.25rem;
   border-bottom: 1px solid #f5f5f5;
-  
+
   &:last-child {
     border-bottom: none;
   }
@@ -367,16 +367,16 @@ const CopyButton = styled.button`
   margin-left: 0.5rem;
   position: relative;
   overflow: hidden;
-  
+
   &:hover, &:active {
     background-color: var(--secondary-color);
     color: white;
   }
-  
+
   &:active {
     transform: translateY(1px);
   }
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -390,11 +390,11 @@ const CopyButton = styled.button`
     transform: scale(1, 1) translate(-50%);
     transform-origin: 50% 50%;
   }
-  
+
   &:active:after {
     animation: ripple 0.6s ease-out;
   }
-  
+
   @keyframes ripple {
     0% {
       transform: scale(0, 0);
@@ -432,16 +432,16 @@ const ShareButton = styled.button<{ $isShare?: boolean }>`
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
   flex: 1;
   max-width: 180px;
-  
+
   &:hover {
     background-color: #c4a986;
     box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   }
-  
+
   &:active {
     transform: translateY(1px);
   }
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -455,10 +455,10 @@ const ShareButton = styled.button<{ $isShare?: boolean }>`
     transform: scale(1, 1) translate(-50%);
     transform-origin: 50% 50%;
   }
-  
+
   &:active:after {
     animation: ripple 0.6s ease-out;
   }
 `;
 
-export default AccountSection; 
+export default AccountSection;

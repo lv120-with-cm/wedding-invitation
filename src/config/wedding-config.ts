@@ -67,7 +67,7 @@ export const weddingConfig = {
       subway: "",
       bus: "백현초등학교 하차 (도보10분)\n810, 101, 390번 버스, 수원버스 66-4번",
     },
-    parking: "건물 앞 주차 가능(무료)",
+    parking: "건물 앞 주차 가능\n(약 15대 공간)",
     // 신랑측 배차 안내
     // groomShuttle: {
     //   location: "신랑측 배차 출발지",
@@ -107,7 +107,7 @@ export const weddingConfig = {
 
   // 초대의 말씀
   invitation: {
-    message: "한 줄기 별빛이 되어 만난 인연\n평생을 함께 걸어가려 합니다.\n\n소중한 분들의 축복 속에\n저희 두 사람이 첫 걸음을 내딛습니다.\n\n귀한 시간 내어 함께해 주신다면\n그 어떤 축복보다 값진 선물이 될 것입니다.",
+    message: "서로가 서로를 만나 하나가 되기까지...\n\n이제 저희 두 사람, 평생 한 곳을 바라보려고 합니다.\n그 시작의 순간을 함께 축복해 주시길 부탁드립니다.\n\n다만, 가족식으로 진행하여 모든 분들을 자리에 모실 수는 없지만\n향후 개인적으로 찾아뵈어 인사드리도록 하겠습니다.\n\n저희의 새로운 출발을 마음속 깊이 응원해 주시길 바랍니다.\n\n늘 처음의 마음처럼 행복하게 살겠습니다.",
     groom: {
       name: "박구삼",
       label: "아들",
@@ -125,34 +125,34 @@ export const weddingConfig = {
   // 계좌번호
   account: {
     groom: {
-      bank: "은행명",
-      number: "123-456-789012",
-      holder: "신랑이름",
+      bank: "우리은행",
+      number: "1002-659-605942",
+      holder: "박구삼",
     },
     bride: {
-      bank: "은행명",
-      number: "987-654-321098",
-      holder: "신부이름",
+      bank: "신한은행",
+      number: "110-296-064575",
+      holder: "윤채민",
     },
     groomFather: {
-      bank: "은행명",
-      number: "111-222-333444",
-      holder: "신랑아버지",
+      bank: "신한은행",
+      number: "110-533-992020",
+      holder: "박재환",
     },
     groomMother: {
-      bank: "은행명",
-      number: "555-666-777888",
-      holder: "신랑어머니",
+      bank: "농협",
+      number: "356-1282-4852-03",
+      holder: "손수정",
     },
     brideFather: {
-      bank: "은행명",
-      number: "999-000-111222",
-      holder: "신부아버지",
+      bank: "",
+      number: "",
+      holder: "",
     },
     brideMother: {
-      bank: "은행명",
-      number: "333-444-555666",
-      holder: "신부어머니",
+      bank: "국민은행",
+      number: "240-2102-89209",
+      holder: "한예진",
     }
   },
 
